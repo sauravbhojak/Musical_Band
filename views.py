@@ -27,13 +27,11 @@ def Indexpage(request):
         fol = followers.objects.all()
         vid1 = Myvideos.objects.get()
         vid = vid1.video
-        print('vid--------------------->',vid)
         all_fol = len(fol)
         context = {'all_event':events,'unfollower':'kai pan','all_fol':all_fol,'vid':vid}
         email = request.session['email']
         
         followers_email = followers.objects.filter(Email=email)
-        print('follow-unfollow---------------------------->',followers_email)
         if followers_email:
             context = {'all_event':events,'follower':'kai pan','all_fol':all_fol,'vid':vid}
             if request.POST:
@@ -44,13 +42,10 @@ def Indexpage(request):
             else:
                 return render(request,'app/index.html',context)
         else:     
-            print("Second Else-------------------->")
             context = {'all_event':events,'unfollower':'kai pan','all_fol':all_fol,'vid':vid}
             if request.POST:
-                print("Create object--------------------->")
                 context = {'all_event':events,'follower':'kai pan','all_fol':all_fol,'vid':vid}
                 dt = datetime.datetime.now()
-                print("Date:----------------------------->",dt)
                 fol = followers.objects.create(Email=email, created_at=dt)
                 return render(request,'app/index.html',context)
             else:
@@ -77,7 +72,6 @@ def Admin_index(request):
         contact = Contact.objects.last()
         feed    = feedback_data.objects.all().order_by('-id').values()
         user = User.objects.all().order_by('-id').values()
-        print("User------------------>",user)
 
         follow_user = td_data(follow)
         follow_users = follow_user[0]
